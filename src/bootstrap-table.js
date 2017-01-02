@@ -746,7 +746,16 @@
     };
 
     BootstrapTable.prototype.onSearch = function (event) {
-        var text = $.trim($(event.currentTarget).val());
+        var $target = $(event.currentTarget);
+        if ($target.attr('placeHolder') == 'Buscar') {
+            var text = $.trim($target.val());
+            if (text === this.searchText) {
+                return;
+            }
+        } else {
+            //FIXME this could be taking the wrong input (like when rendering more tables)
+            text = $.trim($("input[placeHolder='Buscar']").val());
+        }
 
         // trim search input
         if (this.options.trimOnSearch) {
